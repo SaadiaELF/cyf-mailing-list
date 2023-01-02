@@ -48,6 +48,25 @@ app.delete("/lists/:name", function (request, response) {
   response.send("List deleted");
 });
 
+app.put("/lists/:name", function (request, response) {
+  let listName = request.params.name.toLowerCase();
+  let listIndex = data.findIndex(
+    (list) => list.name.toLowerCase() === listName
+  );
+
+  if (listIndex >= 0) {
+    data[listIndex].members.push(...request.body.members);
+    response.json(data[listIndex]);
+  } else {
+    let newList = {
+      name: listName,
+      members: request.body.members,
+    };
+    data.push(newList);
+    response.status(201).json(newList);
+  }
+});
+
 app.listen(PORT, function () {
   console.log("Your app is listening on port " + PORT);
 });

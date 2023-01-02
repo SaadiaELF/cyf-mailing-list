@@ -28,7 +28,7 @@ app.get("/lists/:name", function (request, response) {
   let list = data.filter((list) => list.name.toLowerCase() === listName);
 
   if (list.length === 0) {
-    response.status(404).send("Not found");
+    return response.status(404).send("Not found");
   }
   response.json(list);
 });
@@ -41,7 +41,7 @@ app.delete("/lists/:name", function (request, response) {
   );
 
   if (listIndex < 0) {
-    response.status(404).send("Not found");
+    return response.status(404).send("Not found");
   }
 
   data.splice(listIndex, 1);
@@ -57,7 +57,7 @@ app.put("/lists/:name", function (request, response) {
 
   if (listIndex >= 0) {
     data[listIndex].members.push(...request.body.members);
-    response.json(data[listIndex]);
+    return response.json(data[listIndex]);
   } else {
     let newList = {
       name: listName,
@@ -74,7 +74,7 @@ app.get("/lists/:name/members", function (request, response) {
   let list = data.filter((list) => list.name.toLowerCase() === listName);
 
   if (list.length === 0) {
-    response.status(404).send("Not found");
+    return response.status(404).send("Not found");
   }
   response.json(list[0].members);
 });
@@ -88,10 +88,31 @@ app.patch("/lists/:name/members/:email", function (request, response) {
   );
 
   if (listIndex < 0) {
-    response.status(404).send("List Not found");
+    return response.status(404).send("List Not found");
   }
 
   data[listIndex].members.push(newEmail);
+  response.json(data[listIndex]);
+});
+
+// delete single email
+app.delete("/lists/:name/members/:email", function (request, response) {
+  let listName = request.params.name.toLowerCase();
+  let email = request.params.email.toLowerCase();
+  let listIndex = data.findIndex(
+    (list) => list.name.toLowerCase() === listName
+  );
+  let memberIndex = data[listIndex].members.findIndex(
+    (member) => member.toLowerCase() === email
+  );
+
+  if (listIndex < 0) {
+    return response.status(404).send("List Not found");
+  } else if (memberIndex < 0) {
+    return response.status(404).send("Email Not found");
+  }
+
+  data[listIndex].members.splice(memberIndex, 1);
   response.json(data[listIndex]);
 });
 

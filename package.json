@@ -1,0 +1,23 @@
+{
+  "name": "cyf-mailing-list",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SaadiaELF/cyf-mailing-list.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SaadiaELF/cyf-mailing-list/issues"
+  },
+  "homepage": "https://github.com/SaadiaELF/cyf-mailing-list#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}

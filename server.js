@@ -25,12 +25,12 @@ app.get("/lists", function (request, response) {
 // Get list by name
 app.get("/lists/:name", function (request, response) {
   let listName = request.params.name.toLowerCase();
-  let lists = data.filter((list) => list.name.toLowerCase() === listName);
+  let list = data.filter((list) => list.name.toLowerCase() === listName);
 
-  if (lists.length === 0) {
+  if (list.length === 0) {
     response.status(404).send("Not found");
   }
-  response.json(lists);
+  response.json(list);
 });
 
 // Delete single list
@@ -65,6 +65,17 @@ app.put("/lists/:name", function (request, response) {
     data.push(newList);
     response.status(201).json(newList);
   }
+});
+
+// Get emails by list name
+app.get("/lists/:name/members", function (request, response) {
+  let listName = request.params.name.toLowerCase();
+  let list = data.filter((list) => list.name.toLowerCase() === listName);
+
+  if (list.length === 0) {
+    response.status(404).send("Not found");
+  }
+  response.json(list[0].members);
 });
 
 app.listen(PORT, function () {

@@ -48,6 +48,7 @@ app.delete("/lists/:name", function (request, response) {
   response.send("List deleted");
 });
 
+// update single list
 app.put("/lists/:name", function (request, response) {
   let listName = request.params.name.toLowerCase();
   let listIndex = data.findIndex(
@@ -76,6 +77,22 @@ app.get("/lists/:name/members", function (request, response) {
     response.status(404).send("Not found");
   }
   response.json(list[0].members);
+});
+
+// update single email
+app.patch("/lists/:name/members/:email", function (request, response) {
+  let listName = request.params.name.toLowerCase();
+  let newEmail = request.params.email.toLowerCase();
+  let listIndex = data.findIndex(
+    (list) => list.name.toLowerCase() === listName
+  );
+
+  if (listIndex < 0) {
+    response.status(404).send("List Not found");
+  }
+
+  data[listIndex].members.push(newEmail);
+  response.json(data[listIndex]);
 });
 
 app.listen(PORT, function () {

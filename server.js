@@ -22,6 +22,17 @@ app.get("/lists", function (request, response) {
   response.json(lists);
 });
 
+// Get list by name
+app.get("/lists/:name", function (request, response) {
+  let listName = request.params.name.toLowerCase();
+  let lists = data.filter((list) => list.name.toLowerCase() === listName);
+
+  if (lists.length === 0) {
+    response.status(404).send("Not found");
+  }
+  response.json(lists);
+});
+
 app.listen(PORT, function () {
   console.log("Your app is listening on port " + PORT);
 });
